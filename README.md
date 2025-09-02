@@ -4,14 +4,15 @@ A small python script that uses [plastex](https://plastex.github.io/plastex/) to
 
 ## Prerequisites
 
-1. Python<br>
+1. Python
+
    You need `python 3` and several packages, in particular:
-  ``` bash
-  pip3 install plastex beautifulsoup4
-  ``` 
+   ``` bash
+   pip3 install plastex beautifulsoup4
+   ``` 
 
 2. Anki<br>
-  In Anki, you will once need to import the empty deck file provided [TODO] so that the note type `MathCloze` becomes available.
+   In Anki, you will once need to import the empty deck file provided [TODO] so that the note type `MathCloze` becomes available.
 
 ## Workflow
 
