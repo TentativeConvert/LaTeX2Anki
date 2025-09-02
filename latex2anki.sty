@@ -1,0 +1,130 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{latex2anki}
+\newif\ifplastex
+\RequirePackage{amsmath,amssymb}% note that amssym includes amsfonts
+\RequirePackage{tikz,tikz-cd}
+\ifplastex\else\RequirePackage{xcolor}\fi
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\ifplastex
+\newenvironment{note}[1]{}{}
+\newcommand{\field}{}
+\newcommand{\cloze}[1]{((CLOZE#1))}
+\newcommand{\hint}{((HINT))}
+\newcommand{\clend}{((CLEND))}
+\else
+\newcounter{fieldcounter}
+\newcounter{notecounter}%only for debugging
+\newif\ifnote\notefalse
+\newif\iffield\fieldfalse
+\newif\ifcloze\clozefalse
+\newif\ifhint\hintfalse
+\newcommand{\field}{%
+  %%% syntax error detection:
+  \ifcloze%
+      \PackageError{latex2anki}{unclosed cloze (missing clend command before field command)}{}%
+  \fi%
+  \ifnote\else%
+    \PackageError{latex2anki}{field command can only be used in note environment}{}%
+  \fi
+  \fieldtrue
+  %%%
+  \ifcase\value{fieldcounter}%
+    \par\bigskip
+    \bfseries
+    % Titel
+  \or%
+    \par\bigskip
+    \mdseries
+    % Prompt
+  \or%
+    \par\bigskip
+    \textit{Zusatzinfo:}
+    % Zusatz
+  \or%
+    \par\bigskip
+    \vfill
+    \hfill \color{gray}%Kapitelname
+  \or%
+    -- %Def/Satz/Bsp
+  \or%
+    % Nummer
+  \else
+    %%% syntax error detection:
+    \PackageError{latex2anki}{note environment has more than 6 fields}{}%
+    %%%
+  \fi
+  \stepcounter{fieldcounter}%
+}
+ 
+\newenvironment{note}[1]{%
+  \stepcounter{notecounter}%
+  \PackageInfo{latex2anki}{((BEGINNOTE \arabic{notecounter}))}%
+  %%% syntax error detection:
+  \notetrue%
+  %%%
+  \setcounter{fieldcounter}{0}%
+  %\pagecolor{yellow}%
+  \color{black}%
+  \begin{samepage}%
+    {\tiny%
+      \par\noindent\rule{\textwidth}{0.8pt}%
+      \par\texttt{\parbox[t]{\textwidth}{#1}}%uuid
+    }%
+  }{%
+  \end{samepage}%
+  %%% syntax error detection:
+  \ifcloze%
+    \PackageError{latex2anki}{unclosed cloze (missing clend command before end of note)}{}%
+  \fi%
+  \notefalse%
+  \fieldfalse%
+  %%%
+  \clearpage%
+}
+
+\newcommand{\cloze}[1]{\text{\textbf{\textcolor{gray}{\{}}}%
+  %%% syntax error detection:
+  \ifcloze
+    \PackageError{latex2anki}{unclosed cloze (missing clend command next cloze)}{}%
+  \fi
+  \iffield\else%
+    \PackageError{latex2anki}{missing field command before cloze command}
+  \fi
+  \clozetrue%
+  %%%
+  \ifcase\numexpr#1-1\relax%
+    \color{blue}%
+  \or%
+    \color{green}%
+  \or%
+    \color{purple}%
+  \or%
+    \color{pink}%
+  \else%
+    \color{gray}%
+  \fi%
+}
+\newcommand{\hint}{%
+  %%% syntax error detection:
+  \ifcloze\else%
+    \PackageInfo{latex2anki}{Possibly misplaced hint command: is this hint between a cloze and a clend?}{}%
+  \fi%
+  \ifhint%
+    \PackageError{latex2anki}{misplaced hint command: cloze cannot have more than one hint}{}%
+  \fi%
+  \hinttrue%
+  %%%
+  \color{gray}\text{\textbf{\textcolor{gray}{~:~}}}%
+}
+\newcommand{\clend}{%
+  %%% syntax error detection:
+  \ifcloze\else
+    \PackageInfo{latex2anki}{Possibly misplaced clend command: is there a cloze to close here?}{}%
+  \fi
+  \clozefalse%
+  \hintfalse%
+  %%%
+  \text{\textbf{\textcolor{gray}{\}}}}\color{black}%
+}
+\fi

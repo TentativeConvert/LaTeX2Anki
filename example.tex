@@ -1,0 +1,268 @@
+\documentclass[10pt]{article}
+
+\usepackage{latex2anki}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The following should also be included in anki.sty, but currently that breaks tikz-cd.
+% See https://github.com/plastex/plastex/issues/407#issue-3375113580
+\newif\ifplastex
+% 
+\ifplastex\else
+  \definecolor{mygray}{gray}{0.96}
+  \RequirePackage[a4paper]{geometry}
+  \geometry{paperwidth=.5\paperwidth,paperheight=.25\paperheight,left=2em,right=2em,bottom=1em,top=2em}
+  \RequirePackage{pgfpages}
+  \pgfpagesuselayout{8 on 1}[a4paper,border shrink=1mm]
+  % TODO: bring back page borders
+  % see https://tikz.dev/pages#pgf.back/pgfpagesuselayout
+  % but
+  %     \pgfpageslogicalpageoptions{1}{border code=\pgfstroke}
+  %     does not compile
+  % Current work-around is to set logical page color to light gray
+  % and leave physical page colour undefined (white);
+  % Would prefer to set physical page color to gray
+  % and logical page color to white, but for some reason then everything becomes white again.
+  \pagestyle{empty}
+  \setlength{\parindent}{0in}
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% blackboard bold font letters
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+%
+% (redefined) symobls 
+%
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\newcommand{\scprod}[2]{\langle #1, #2\rangle} %Skalarprodukt
+\def\phi{\varphi}
+\def\epsilon{\varepsilon}
+\def\leq{\leqslant}
+\def\geq{\geqslant}
+\newcommand{\tsmash}{\wedge}
+\newcommand{\twedge}{\vee}
+\newcommand{\from}{\leftarrow}
+\newcommand{\noloc}{:\!}
+%
+% special maps
+%
+\newcommand{\id}{\mathrm{id}}
+%
+% linear algebra
+%
+\def\vec #1{\mathbf{#1}}
+\newcommand{\Potenz}{\mathfrak P}
+\newcommand{\hull}[1]{\langle #1 \rangle}
+\newcommand{\Lraum}{\mathcal L}
+
+% Categories:
+\DeclareMathOperator{\Ar}{Ar}
+\newcommand{\cat}[1]{\bm{\mathsf{#1}}}
+\newcommand{\iTop}{\underline{\smash{\mathsf{Top}}}}  % internal hom in Top
+\newcommand{\iAut}{\underline{\smash{\mathsf{Aut}}}}  
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\Mor}{\mathrm{Mor}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\DeclareMathOperator{\signum}{sgn}
+\DeclareMathOperator{\rank}{rk}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Abb}{Abb}
+\DeclareMathOperator{\Mat}{Mat}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% additional commands in LinA2022.tex:
+% 
+% 
+%\mathchardef\mhyphen="2D
+%\newcommand*{\factor}[2]{\left.\raisebox{.1em}{\ensuremath{#1}}\middle/\raisebox{-.1em}{\ensuremath{#2}}\right.}
+% 
+%% arrows:
+%\newcommand*{\openhookrightarrow}{\mathrel{\ooalign{$\hookrightarrow$\cr\hidewidth\hbox{$\circ\,\,$}\cr}}}
+%\newcommand*{\closedhookrightarrow}{\mathrel{\ooalign{$\hookrightarrow$\cr\hidewidth\raise0.1ex\hbox{$\rule{0.5pt}{1ex}\;\;$}\cr}}}
+%\newcommand*{\openhookleftarrow}{\mathrel{\ooalign{$\hookleftarrow$\cr\hidewidth\hbox{$\circ\;$}\cr}}}
+%\newcommand*{\closedhookleftarrow}{\mathrel{\ooalign{$\hookleftarrow$\cr\hidewidth\raise0.1ex\hbox{$\rule{0.5pt}{1ex}\,\;$}\cr}}}
+%\newcommand*{\leadsleadsto}{\mathrel{\substack{\leadsto\\[-1em]\leadsto}}}
+% 
+% 
+%% text positioning in maths:
+%\newcommand{\ctext}[2]{\text{\parbox{#1}{\centering #2}}}
+%\newcommand{\ltext}[2]{\text{\parbox{#1}{\raggedright#2}}}
+%\newcommand{\rtext}[2]{\text{\parbox{#1}{\raggedleft#2}}}
+%\newcommand{\cttext}[2]{\text{\parbox[t]{#1}{\centering #2}}}
+%\newcommand{\lttext}[2]{\text{\parbox[t]{#1}{\raggedright#2}}}
+%\newcommand{\rttext}[2]{\text{\parbox[t]{#1}{\raggedleft#2}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+   
+\begin{document}
+
+\begin{note}{f825555f-986c-4044-b28b-5af09385be21}
+  \field De Morgansche Regel (I)
+  \field
+  Das Komplement einer Vereinigung ist \cloze{1}der Schnitt der Komplemente.\clend
+  \field
+  \field Mengen
+  \field Satz
+  \field 01.08
+\end{note}
+ 
+\begin{note}{ad21153d-ddfa-4d80-9843-ace7b8f615c8}
+  \field De Morgansche Regel (II)
+  \field
+    Das Komplement eines Schnitts ist \cloze{1}die Vereinigung der Komplemente.\clend
+  \field  
+  \field Mengen
+  \field Satz
+  \field 01.08
+\end{note}
+ 
+\begin{note}{11291ec1-e99f-4642-b7c1-7581a2a8e902}
+  \field
+  \field
+  Ein \textbf{Urbild} eines Elements \(b\in B\) unter einer Abbildung \(f\colon A\to B\) ist \cloze{1}ein Element \(a\in A\) mit \(f(a) = b\).\hint Element\clend
+  \field
+  \field Mengen
+  \field Definition
+  \field 01.17
+\end{note}
+ 
+ 
+\begin{note}{d9ba908c-fc60-4836-88c1-4810fb0a578d}
+  \field
+  \field Das \textbf{Urbild} einer Teilmenge \(B'\subset B\) unter einer Abbildung \(f\colon A\to B\) ist \cloze{1}die Menge \emph{aller} \(a\in A\) mit \(f(a) \in B'\).\clend
+  \field
+  \field Mengen
+  \field Definition
+  \field 01.17
+\end{note}
+ 
+\begin{note}{547c84db-12f0-4c3c-afe4-1d28b22ad5fa}
+  \field
+  \field Die \textbf{Faser} eines Elements \(b\in B\) bezüglich einer Abbildung \(f\colon A\to B\) ist \cloze{1}die Menge aller Urbilder von \(b\).\clend
+  \field
+  \field Mengen
+  \field Definition
+  \field 01.17
+\end{note}
+
+\begin{note}{TESTmatrix}
+  \field
+  Zeilennormalform
+  \field
+  Eine Matrix in \textbf{Zeilennormalform} (ZNF) ist \cloze{1} eine Matrix in Zeilenstufenform, in der alle Pivot-Element \(1\) sind und oberhalb jedes Pivot-Elements nur Nullen stehen.\clend
+  \field
+  \[
+    \begin{pmatrix}
+      0 & 0 & \textcolor{red}{1} & \blacksquare & 0 & \blacksquare & \blacksquare & 0 & \blacksquare & \blacksquare  \\
+      0 & 0 & 0 & 0            & \textcolor{red}{1} & \blacksquare & \blacksquare & 0 & \blacksquare & \blacksquare  \\
+      0 & 0 & 0 & 0            & 0 & 0            & 0            & \textcolor{red}{1} & \blacksquare & \blacksquare  \\
+      0 & 0 & 0 & 0            & 0 & 0            & 0            & 0 & 0            & 0             
+    \end{pmatrix}
+  \]
+  \field
+  \field
+  \field
+\end{note}
+
+\begin{note}{TEST}
+  \field
+  aligned (mit internen clozes)
+  \field
+  \(V\), \(W\) Vektorräume. Eine Abbildung \(f\colon V^n\to W\) ist multilinear, wenn gilt:
+  \[
+  \begin{aligned} & & & \cloze{1} f(\vec v_1, \dots, \vec v_{i-1}, \vec v_i + \vec v_i' , \vec v_{i+1},\dots, \vec v_n) \clend \\
+    = & \phantom{\,+\,} & & \cloze{2} f(\vec v_1, \dots, \vec v_{i-1}, \quad\vec v_i\quad, \vec v_{i+1},\dots, \vec v_n) \\
+                  & \,+\, & & f(\vec v_1, \dots, \vec v_{i-1}, \quad\vec v_i'\quad , \vec v_{i+1},\dots, \vec v_n) \clend \\
+    ~\\
+                  & & & \cloze{3} f(\vec v_1, \dots, \vec v_{i-1}, s\vec v_i , \vec v_{i+1},\dots, \vec v_n) \clend \\
+    = & & & \cloze{4} s \cdot f(\vec v_1, \dots, \vec v_{i-1}, \phantom{s} \vec v_i, \vec v_{i+1},\dots, \vec v_n) \clend
+  \end{aligned}
+  \]
+  \field
+  \field Determinante
+  \field Definition
+  \field 08.04
+\end{note}
+
+\begin{note}{TESTtable1}
+  \field
+  Tabelle (tabular)
+  \field
+  \begin{center}
+    \begin{tabular}{ll}
+      \(a\) & \(b\) \\
+      \(c\) & \(d\)
+    \end{tabular}
+  \end{center}
+  \field
+  \field
+  \field
+  \field
+\end{note}
+
+\begin{note}{TESTtable2}
+  \field
+  Simulation von aligned mit tabular
+  \field
+  \(V\), \(W\) Vektorräume. Eine Abbildung \(f\colon V^n\to W\) ist multilinear, wenn gilt:
+  \begin{center}
+    \begin{tabular}{rcl}
+      & & \cloze{1} \(f(\vec v_1, \dots, \vec v_{i-1}, \vec v_i + \vec v_i' , \vec v_{i+1},\dots, \vec v_n)\) \clend \\
+      & & \(=\) \cloze{2} \(\begin{aligned}
+                          & f(\vec v_1, \dots, \vec v_{i-1}, \quad\vec v_i\quad, \vec v_{i+1},\dots, \vec v_n)
+                          \\
+                          +\,
+                          & f(\vec v_1, \dots, \vec v_{i-1}, \quad\vec v_i'\quad , \vec v_{i+1},\dots, \vec v_n)
+                        \end{aligned}\) \clend \\
+      ~\\
+      & & \cloze{3} \(f(\vec v_1, \dots, \vec v_{i-1}, s\vec v_i , \vec v_{i+1},\dots, \vec v_n)\) \clend \\
+      & = & \cloze{4} \(s \cdot f(\vec v_1, \dots, \vec v_{i-1}, \phantom{s} \vec v_i, \vec v_{i+1},\dots, \vec v_n)\) \clend
+    \end{tabular}
+  \end{center}
+  \field
+  \field Determinante
+  \field Definition
+  \field 08.04
+\end{note}
+
+
+\begin{note}{tikz1}
+  \field
+  TIKZ1
+  \field
+  \cloze{1}ABCD\clend
+  \begin{center}
+    \begin{tikzcd}[row sep=1cm]
+      A \arrow{r}{a} \arrow{d}{b} & B \arrow{d}{c}\\
+      C \arrow{r}{d} & D
+    \end{tikzcd}
+  \end{center}
+  \field
+  \field
+  \field
+  \field
+\end{note}
+
+\begin{note}{tikz2}
+  \field
+  TIKZ2
+  \field
+  \cloze{1}EF\clend
+  \begin{center}
+    \begin{tikzcd}[row sep=1cm]
+      E \arrow{r}{a}  & F
+    \end{tikzcd}
+  \end{center}
+  \field
+  \field
+  \field
+  \field
+\end{note}
+
+\end{document}
+

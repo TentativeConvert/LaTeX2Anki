@@ -1,0 +1,8 @@
+name: note
+<div class="note">
+     <div class="uuid">{{ obj.attributes.uuid }}</div>
+     {{ obj }}
+</div>
+
+name: field 
+<br class="fieldseparator"></br>
