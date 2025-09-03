@@ -2,41 +2,68 @@
 
 A small python script that uses [plastex](https://plastex.github.io/plastex/) to convert a LaTeX document consisting of structured notes into a csv file that can be imported into [Anki](https://apps.ankiweb.net/).
 
+It's designed for the same use case as the older package [LaTeX-Note-Importer-for-Anki](https://github.com/TentativeConvert/LaTeX-Note-Importer-for-Anki/), by the same author, but aims to make better use of some of Anki's inbuilt features:
+
+- cloze deletions
+- dynamic page rendering based on screen size and user preferences (night mode)
+
+Notes created and shared using LaTeX-Note-Importer are essentially static images.  Notes created and shared using the script and workflow described here are html based, with maths mixed in and rendered using Anki's inbuild MathJax engine.  
+
+
 ## Prerequisites
 
-1. Python
+1. LaTeX
 
-   You need `python 3` and several packages, in particular:
+   (Strictly speaking, this is optional, but why would you be here if you didn't have LaTeX installed?)
+
+2. Python
+
+   You need `python 3`.  Clone this repository and run and several packages, in particular `plastex` and `beautifulsoup4`.  
    ``` bash
-   pip3 install plastex beautifulsoup4
+   pip3 install latex2anki
    ``` 
 
-2. Anki<br>
-   In Anki, you will once need to import the empty deck file provided [TODO] so that the note type `MathCloze` becomes available.
+   This should automatically install the python packages `plastex` and `beautifulsoup4`.
+
+3. Anki
+
+   In Anki, you will once need to import the deck `example/example.apkg` so that the note type `MathCloze` becomes available in Anki. 
+   You can immediately delete the deck again after importing it.
 
 ## Workflow
 
-1. (optional) LaTeX compilation
-2. run `python3 latex2anki.py example.tex`
-3. import `example/example.csv` into Anki
+I describe the workflow here using the file `example.tex`.
 
-   - choose to update existing notes
+0. Copy or symlink the files `latex2anki.sty` and `latex2anki.ini` into the directory in which your tex file `example.tex` lives.  
+
+   You only need to do this once for each directory in which you want to keep your texed notes.
+
+1. optional: Compile `example.tex` to `example.pdf` with LaTeX.
+
+   Check that the pdf file looks as expected.
+  
+2. Run `latex2anki.py example.tex`.
+
+   You need to call this command in the folder in which `example.tex` lives.
+   
+   It first converts the tex file to `example/example.html` via `plastex`, which you can view in your browser.
+   In this step, all user defined macros get expanded, so that the html file only contains standard LaTeX commands.
+   
+   In a second step, the script converts the html file to `example/example.csv`.
+      
+3. Import `example/example.csv` into Anki.
+
+   In the dialog window, choose:
+
+   - update existing notes
    - note type: `MathCloze`
    
-4. in case you are using tikz-cd diagrams, copy folder `images` from `example` to Anki's media folder, e.g. to
-   ``` bash
-   …/snap/anki-desktop/common/Benutzer 1/collection.media
-   ```
-   
-## Known issues & limitations
-    
-### MathJax only includes certain packages out-of-the-box
- 
-See  [MathJax 3 documentation](https://docs.mathjax.org/en/v3.0/input/tex/extensions/ams.html ) for a list. (The list of MathJax 4 looks similar.  See [Anki:issue4277](https://github.com/ankitects/anki/issues/4277) for updates on the inclusion of MathJax 4 into Anki.)
-        
+## Known issues, caveats & limitations
+
 ### Use `\(…\)` and `\[…\]` only for maths
   
 Do not use `$…$` or `$$…$$` or `\begin{equation} … \end{equation}` etc. 
+
     
 ### Use `def` instead of `\renewcommand` to overwrite inbuilt commands
 LaTeX's `\newcommand` works, and `renewcommand` mostly works, except for inbuilt commands.
@@ -66,6 +93,12 @@ Workaround:
 \\~
 \\
 ```
+
+### MathJax only includes certain packages out-of-the-box
+ 
+See  [MathJax 3 documentation](https://docs.mathjax.org/en/v3.0/input/tex/extensions/ams.html ) for a list. (The list of MathJax 4 looks similar.  See [Anki:issue4277](https://github.com/ankitects/anki/issues/4277) for updates on the inclusion of MathJax 4 into Anki.)
+
+
 ## Design choices
    
 ### `note` environment and `field` command
@@ -97,35 +130,29 @@ and
 ```
 are both completely legitimate in Anki, but it would not be possible to generated these examples with a syntax of the form `\cloze[a hint]{the hidden text}`
    
-### Offline svg-images versus client-side MathJax rendering
+### MathJax rendering versus svg-images
 
-Plastex treats maths in two different ways:
+There are two possible approaches to rendering an html-latex mix in Anki.
 
-1. Most maths is included as plain latex in the html document, and displayed using MathJax.
+1. Include LaTeX directly within the html code, so that it is renedered with Anki's built-in MathJax engine.
 
-   Pros:
-    - (+) Can use clozes inside maths.  
-    - (+) Exporting is easy.
-    - (+) Supports nightmode coloring via css.
+   Pros & Cons:
+    - ❌ Loading probably slower.
+    - ✅ Can use clozes inside maths (but cloze-specific colour highlighting not supported).  
+    - ✅ Importing is easy.
+    -
     
-    Cons:
-    - (-) Only displays with internet connection.
-    - (-) Color highlighting of clozes *within* equations not supported.
-    
-2. `tikz-cd` diagrams are converted to `svg`'s.
+2. Convert LaTeX to `svg`s, and include references to the svg files in the html code.
 
-    Pros: 
-    - (+) Can be viewed offline.
-    - (+) Supports nightmode colouring: can invert image via css
-    
-    Cons:  
-    - (-) Exporting to Anki requires additional step: need to manually copy the `svg` files to Anki's media folder.
-    - (-) Cannot included clozes within diagrams.     
+    Pros & Cons: 
+    - ✅ Loading probably faster.
+    - ❌ Importing into Anki requires additional step: need to manually copy the `svg` files to Anki's media folder
+          (e.g. to   ` …/snap/anki-desktop/common/Benutzer 1/collection.media` if Anki is installed as a snap package).
+    - ❌ Cannot included clozes within diagrams.     
 
-Each way has pro's and con's.  Using both simultaneously gives us to the worst of both worlds.  Can this be avoided?
-  
-Option A: There should be a way to turn all maths into images.  But this is difficult to set up.  See
-  [plastex:issue163](https://github.com/plastex/plastex/issues/163).
-  
-Option B: Can't MathJax compile tikz-cd directly?  Maybe need to use [amscd](https://docs.mathjax.org/en/latest/input/tex/extensions/amscd.html) instead.
 
+In both options, the cards can be viewed offline, and both options support nightmode colouring via css (colour of images can be inverted via css).
+
+`plastex` mostly caters for option 1, so this is the path we follow here.  One exception is `tikz-cd` diagrams, which `plastex` converts to `svg`s.  My current inclination is to simply avoid such diagrams, so that we don't end up having to deal with the worst of both words 1 & 2.  If I really need a card with a diagram, perhaps  [amscd](https://docs.mathjax.org/en/latest/input/tex/extensions/amscd.html) would work instead.
+
+It should be possible to set up `plastex` use option 2 for all maths, i.e. to turn all maths into images. But this is difficult to set up.  See [plastex:issue163](https://github.com/plastex/plastex/issues/163).

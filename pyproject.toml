@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "latex2anki"
+version = "0.1.0"
+description = "A small script for converting structured LaTeX files into csv files that can be imported into Anki"
+authors = [
+  { name = "Marcus Zibrowius" }
+]
+dependencies = [
+    "plastex",
+    "beautifulsoup4"
+]
+
+[project.scripts]
+latex2anki = "latex2anki.cli:main"

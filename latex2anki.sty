@@ -4,8 +4,14 @@
 \RequirePackage{amsmath,amssymb}% note that amssym includes amsfonts
 \RequirePackage{tikz,tikz-cd}
 \ifplastex\else\RequirePackage{xcolor}\fi
-% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\ifplastex\else
+  \RequirePackage[a4paper]{geometry}
+  \geometry{paperwidth=.5\paperwidth,paperheight=.25\paperheight,left=2em,right=2em,bottom=1em,top=2em}
+  \pagestyle{empty}
+  \setlength{\parindent}{0in}
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifplastex
 \newenvironment{note}[1]{}{}
 \newcommand{\field}{}
@@ -39,7 +45,7 @@
     % Prompt
   \or%
     \par\bigskip
-    \textit{Zusatzinfo:}
+    \textit{Background info:}
     % Zusatz
   \or%
     \par\bigskip
@@ -128,3 +134,4 @@
   \text{\textbf{\textcolor{gray}{\}}}}\color{black}%
 }
 \fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
