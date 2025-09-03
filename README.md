@@ -7,7 +7,7 @@ It's designed for the same use case as the older package [LaTeX-Note-Importer-fo
 - cloze deletions
 - dynamic page rendering based on screen size and user preferences (night mode)
 
-Notes created and shared using LaTeX-Note-Importer are essentially static images.  Notes created and shared using the script and workflow described here are html based, with maths mixed in and rendered using Anki's inbuild MathJax engine.  
+Notes created and shared using LaTeX-Note-Importer are essentially static images.  Notes created and shared using the script and workflow described here are html based, with maths mixed in and rendered using Anki's built-in MathJax engine.  
 
 
 ## Prerequisites
@@ -18,7 +18,7 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
 
 2. Python
 
-   You need `python 3`.  Clone this repository and run and several packages, in particular `plastex` and `beautifulsoup4`.  
+   You need `python 3` and several packages, in particular `plastex` and `beautifulsoup4`.  Clone this repository and run 
    ``` bash
    pip3 install latex2anki
    ``` 
@@ -103,7 +103,7 @@ See  [MathJax 3 documentation](https://docs.mathjax.org/en/v3.0/input/tex/extens
    
 ### `note` environment and `field` command
 
-The structure of `note` environment and `field` command is supposed to be reminiscent of the structure of `itemize` environment and `item` argument.  So it should feel sufficiently “LaTeXy”.  On the other hand, simply “itemizing” all field entries is very close to the internal logic of Anki, and it certainly accurately reflects the structure of the csv-file that is used as an intermediary to import notes form LaTeX into Anki.
+The structure of `note` environment and `field` command is supposed to be reminiscent of the structure of `itemize` environment and `item` argument.  So it should feel sufficiently “LaTeXy”.  On the other hand, simply “itemizing” all field entries is very close to the internal logic of Anki, and it certainly accurately reflects the structure of the csv file that is used as an intermediary to import notes form LaTeX into Anki.
  
 ### `cloze`, `hint` and `clend` commands
 
@@ -132,7 +132,7 @@ are both completely legitimate in Anki, but it would not be possible to generate
    
 ### MathJax rendering versus svg-images
 
-There are two possible approaches to rendering an html-latex mix in Anki.
+There are two possible approaches to rendering an html-tex mix in Anki.
 
 1. Include LaTeX directly within the html code, so that it is renedered with Anki's built-in MathJax engine.
 
