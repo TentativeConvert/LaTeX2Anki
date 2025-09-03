@@ -66,7 +66,7 @@ Do not use `$…$` or `$$…$$` or `\begin{equation} … \end{equation}` etc.
 
     
 ### Use `def` instead of `\renewcommand` to overwrite inbuilt commands
-LaTeX's `\newcommand` works, and `renewcommand` mostly works, except for inbuilt commands.
+LaTeX's `\newcommand` works, and `\renewcommand` mostly works, except for inbuilt commands.
 For inbuilt commands, plastex ignores `\renewcommand`, see [plastex:issue#90](https://github.com/plastex/plastex/issues/90).
         
 Workaround:  use `\def` to overwrite inbuilt commands, e.g.
@@ -80,7 +80,7 @@ to redefine `\vec`.  Don't put  a space between  `…#1` and `{…`!
 The `alignedat` environment appears to break plastex.
 The `aligned` environment works.
 
-### Empty lines in certain environments are lost.
+### Empty lines in certain environments are lost
 For exmple, empty lines produced with 
 
 ``` latex
