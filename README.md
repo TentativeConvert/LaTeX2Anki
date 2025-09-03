@@ -18,13 +18,13 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
 
 2. Python
 
-   You need `python 3` and several packages, in particular `plastex` and `beautifulsoup4`.  Clone this repository and run 
+   You need `python 3` and several packages, in particular `plastex` and `beautifulsoup4`.  Clone this repository into some local folder and run
    ``` bash
-   pip3 install latex2anki
+   pip install --editable .
    ``` 
-
+   in that folder (the folder containing `pyproject.toml`).
    This should automatically install the python packages `plastex` and `beautifulsoup4`.
-
+   
 3. Anki
 
    In Anki, you will once need to import the deck `example/example.apkg` so that the note type `MathCloze` becomes available in Anki. 
