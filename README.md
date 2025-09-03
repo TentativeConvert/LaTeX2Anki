@@ -58,6 +58,9 @@ I describe the workflow here using the file `example.tex`.
    - update existing notes
    - note type: `MathCloze`
    
+For a more elaborate example of what a tex file with notes might look like, see [LinACards2025.tex](https://github.com/TentativeConvert/LinACards2025/blob/main/LinACards2025.tex).
+
+
 ## Known issues, caveats & limitations
 
 ### Use `\(…\)` and `\[…\]` only for maths
@@ -98,6 +101,11 @@ Workaround:
  
 See  [MathJax 3 documentation](https://docs.mathjax.org/en/v3.0/input/tex/extensions/ams.html ) for a list. (The list of MathJax 4 looks similar.  See [Anki:issue4277](https://github.com/ankitects/anki/issues/4277) for updates on the inclusion of MathJax 4 into Anki.)
 
+### Plastex does not render `\slash`
+
+### Plastex does not stop parsing at `\end{document}`
+
+So better make sure the document ends at `\end{document}`.  I have not investigated details.
 
 ## Design choices
    
