@@ -53,7 +53,7 @@ I describe the workflow here using the file `example.tex`.
    
    *Details:* The main code of `latex2anki` is contained in `latex2anki/cli.py`. 
    
-   The first conversion step (`tex > html`) is delegated to `plastex`.  The details of this conversion are controlled by three files: by  (the `\if\plastex`-branches of) `latex2anki.sty` and `latex2anki.ini`, which should both be in the same folder as the tex file), and by the template file `latex2anki.jinja2s`, which should be in the same folder `latex2anki` as the python script `cli.py` itself.  Note that `plastex` automatically expands all user-defined macros, so that the html file only contains standard LaTeX commands.
+   The first conversion step (`tex > html`) is delegated to `plastex`.  The details of this conversion are controlled by three files: by  (the `\if\plastex`-branches of) `latex2anki.sty` and `latex2anki.ini`, which should both be in the same folder as the tex file, and by the template file `latex2anki.jinja2s`, which should be in the same folder `latex2anki` as the python script `cli.py` itself.  Note that `plastex` automatically expands all user-defined macros, so that the html file only contains standard LaTeX commands.
    
    For details of the second conversion step (`html > csv`), see the code in `cli.py`.
          
@@ -78,7 +78,9 @@ Do not use `$…$` or `$$…$$` or `\begin{equation} … \end{equation}` etc.
 While clozes within maths work in principal, they do tend to break things.  
 
 One of the things that definitely does not work for clozes within maths is colour-highlighting.
-By default, Anki highlights the revealed cloze deletions in blue.  This works for maths contained within clozes (e.g. “the answer is \cloze{1}\(b^2 + c^2\)\clend”), but it does *not* work for clozes within maths, e.g. “the answer is \(a^2 = \cloze{1} b^2 + c^2\clend\)”.  Instead of the last example, you could rwite “the answer is \(a^2 = \)\cloze{1}\(b^2 + c^2\)\clend”.  Note that this is a limitation of Anki/MathJax, not a limitation of the conversion process.
+By default, Anki highlights the revealed cloze deletions in blue.  This works for maths contained within clozes, e.g. `the answer is \cloze{1}\(b^2 + c^2\)\clend`.  But it does *not* work for clozes within maths, e.g. `the answer is \(a^2 = \cloze{1} b^2 + c^2\clend\)`.  You could write `the answer is \(a^2 = \)\cloze{1}\(b^2 + c^2\)\clend` instead, and then everything will look as expected again.  
+
+Note that this is a limitation of Anki/MathJax, not a limitation of the conversion process.
 
 ### Use `def` instead of `\renewcommand` to overwrite inbuilt commands
 LaTeX's `\newcommand` works, and `\renewcommand` mostly works, except for inbuilt commands.
