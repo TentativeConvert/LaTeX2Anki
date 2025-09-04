@@ -20,14 +20,15 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
 
    You need `python 3` and several packages, in particular `plastex` and `beautifulsoup4`.  Clone this repository into some local folder and run
    ``` bash
-   pip install --editable .
+   pip install .
    ``` 
-   in that folder (the folder containing `pyproject.toml`).
-   This should automatically install the python packages `plastex` and `beautifulsoup4`.
+   in that folder (the folder containing `pyproject.toml`).    This should automatically install the python packages `plastex` and `beautifulsoup4`.   (In case you want to do local development on this python script, use  `pip install --editable .` instead, so you do not need to reinstall after each edit.) 
+
    
 3. Anki
 
-   In Anki, you will once need to import the deck `example/example.apkg` so that the note type `MathCloze` becomes available in Anki. 
+   In Anki, you will once need to import the deck `example/example.apkg` so that the note type `MathCloze` becomes available in Anki.  (Hopefully, this will also install the necessary fonts for MathCloze in Anki -- need to check this.)
+   
    You can immediately delete the deck again after importing it.
 
 ## Workflow
@@ -40,17 +41,22 @@ I describe the workflow here using the file `example.tex`.
 
 1. optional: Compile `example.tex` to `example.pdf` with LaTeX.
 
-   Check that the pdf file looks as expected.
+   Check that the pdf file looks as expected.  
+   
+   *Details:* The layout of the pdf file is controlled by (the `\if\plastex\else`-branches of) the LaTeX package `latex2anki.sty`, which should be in the same folder as the tex file.  This LaTeX package is specifically designed for the Anki note template `MathCloze`.  If you use a different template, you will need to adapt this file.
   
-2. Run `latex2anki.py example.tex`.
+2. Run `latex2anki example.tex`.
 
    You need to call this command in the folder in which `example.tex` lives.
    
-   It first converts the tex file to `example/example.html` via `plastex`, which you can view in your browser.
-   In this step, all user defined macros get expanded, so that the html file only contains standard LaTeX commands.
+   In a first step, `plastex` is called to convert the tex file to `example/example.html`, which you can view in your browser.  In a second step, the script converts the html file to `example/example.csv`.
    
-   In a second step, the script converts the html file to `example/example.csv`.
-      
+   *Details:* The main code of `latex2anki` is contained in `latex2anki/cli.py`. 
+   
+   The first conversion step (`tex > html`) is delegated to `plastex`.  The details of this conversion are controlled by three files: by  (the `\if\plastex`-branches of) `latex2anki.sty` and `latex2anki.ini`, which should both be in the same folder as the tex file), and by the template file `latex2anki.jinja2s`, which should be in the same folder `latex2anki` as the python script `cli.py` itself.  Note that `plastex` automatically expands all user-defined macros, so that the html file only contains standard LaTeX commands.
+   
+   For details of the second conversion step (`html > csv`), see the code in `cli.py`.
+         
 3. Import `example/example.csv` into Anki.
 
    In the dialog window, choose:
@@ -67,7 +73,13 @@ For a more elaborate example of what a tex file with notes might look like, see 
   
 Do not use `$…$` or `$$…$$` or `\begin{equation} … \end{equation}` etc. 
 
-    
+### Avoid clozes within maths
+
+While clozes within maths work in principal, they do tend to break things.  
+
+One of the things that definitely does not work for clozes within maths is colour-highlighting.
+By default, Anki highlights the revealed cloze deletions in blue.  This works for maths contained within clozes (e.g. “the answer is \cloze{1}\(b^2 + c^2\)\clend”), but it does *not* work for clozes within maths, e.g. “the answer is \(a^2 = \cloze{1} b^2 + c^2\clend\)”.  Instead of the last example, you could rwite “the answer is \(a^2 = \)\cloze{1}\(b^2 + c^2\)\clend”.  Note that this is a limitation of Anki/MathJax, not a limitation of the conversion process.
+
 ### Use `def` instead of `\renewcommand` to overwrite inbuilt commands
 LaTeX's `\newcommand` works, and `\renewcommand` mostly works, except for inbuilt commands.
 For inbuilt commands, plastex ignores `\renewcommand`, see [plastex:issue#90](https://github.com/plastex/plastex/issues/90).
@@ -83,29 +95,27 @@ to redefine `\vec`.  Don't put  a space between  `…#1` and `{…`!
 The `alignedat` environment appears to break plastex.
 The `aligned` environment works.
 
-### Empty lines in certain environments are lost
+### Use `\\~` instead of `\\` to produce empty lines in certain environments
 For exmple, empty lines produced with 
 
 ``` latex
 \\
 \\  
 ```
-    in an `aligned` environment are lost when processing with plastex.
-Workaround:
-``` latex
-\\~
-\\
-```
+    in an `aligned` environment are lost when processing with plastex.  Using `\\~` instead of `\\` provides a simple workaround.
+
+### Don't use `\slash`
+
+It appears that plastex does not render `\slash`.
+
+### Don't write anything below `\end{document}`
+
+It appears that plastex does not stop parsing at  `\end{document}`, and thus easily gets confused by if the file continues past this point.  I have not investigated details.
+
 
 ### MathJax only includes certain packages out-of-the-box
  
 See  [MathJax 3 documentation](https://docs.mathjax.org/en/v3.0/input/tex/extensions/ams.html ) for a list. (The list of MathJax 4 looks similar.  See [Anki:issue4277](https://github.com/ankitects/anki/issues/4277) for updates on the inclusion of MathJax 4 into Anki.)
-
-### Plastex does not render `\slash`
-
-### Plastex does not stop parsing at `\end{document}`
-
-So better make sure the document ends at `\end{document}`.  I have not investigated details.
 
 ## Design choices
    
