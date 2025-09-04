@@ -122,7 +122,7 @@ It appears that plastex does not stop parsing at  `\end{document}`, and thus eas
 
 You won't get any errors if you don't, but the cards in Anki will look much nicer on large screens if you do.
 
-### If you enlose prose in `\begin{center}…\end{center}`, add `\par`
+### If you enclose prose in `\begin{center}…\end{center}`, add `\par`
 
 That is, write your paragraph as follows:
 
