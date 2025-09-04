@@ -89,7 +89,7 @@ For inbuilt commands, plastex ignores `\renewcommand`, see [plastex:issue#90](ht
 Workaround:  use `\def` to overwrite inbuilt commands, e.g.
 
 ``` latex
-\def\vec #1{\mathbf{#1}}`
+\def\vec #1{\mathbf{#1}}
 ```
 to redefine `\vec`.  Don't put  a space between  `…#1` and `{…`!
 
@@ -104,7 +104,7 @@ For exmple, empty lines produced with
 \\
 \\  
 ```
-    in an `aligned` environment are lost when processing with plastex.  Using `\\~` instead of `\\` provides a simple workaround.
+in an `aligned` environment are lost when processing with plastex.  Using `\\~` instead of `\\` provides a simple workaround.
 
 ### Don't use `\slash`
 
@@ -112,7 +112,7 @@ It appears that plastex does not render `\slash`.
 
 ### Don't write anything below `\end{document}`
 
-It appears that plastex does not stop parsing at  `\end{document}`, and thus easily gets confused by if the file continues past this point.  I have not investigated details.
+It appears that plastex does not stop parsing at  `\end{document}`, and thus easily gets confused if the file continues past this point.  I have not investigated details.
 
 
 ### MathJax only includes certain packages out-of-the-box
