@@ -27,7 +27,7 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
    
 3. Anki
 
-   In Anki, you will once need to import the deck `example/example.apkg` so that the note type `MathCloze` becomes available in Anki.  (Hopefully, this will also install the necessary fonts for MathCloze in Anki -- need to check this.)
+   In Anki, you will once need to import the deck `example/example.apkg` so that the note type `MathCloze` becomes available in Anki.  (Hopefully, this will also install the necessary fonts for MathCloze in Anki -- I need to test this. Exporting `example.apkg` with the option `export media` did lead to a larger file than exporting without this option, so hopefully this difference is caused precisely by the fonts.)
    
    You can immediately delete the deck again after importing it.
 
@@ -73,6 +73,10 @@ For a more elaborate example of what a tex file with notes might look like, see 
   
 Do not use `$…$` or `$$…$$` or `\begin{equation} … \end{equation}` etc. 
 
+### Don't nest maths within `\text{…}` within maths
+
+It seems that at some stage of the conversion process, `\(\text{\(x\)}\)` gets converted into `\(\text{$x$}\)`, which then displays incorrectly.  It looks like a `plastex` bug to me, but I have not investigated details.
+
 ### Avoid clozes within maths
 
 While clozes within maths work in principal, they do tend to break things.  
@@ -113,6 +117,21 @@ It appears that plastex does not render `\slash`.
 ### Don't write anything below `\end{document}`
 
 It appears that plastex does not stop parsing at  `\end{document}`, and thus easily gets confused if the file continues past this point.  I have not investigated details.
+
+### Enclose lists and enumerations in `\begin{center}…\end{center}`
+
+You won't get any errors if you don't, but the cards in Anki will look much nicer on large screens if you do.
+
+### If you enlose prose in `\begin{center}…\end{center}`, add `\par`
+
+That is, write your paragraph as follows:
+
+``` latex
+\begin{center}
+\par This is some nice text.
+\end{center}
+```
+Otherwise, each word will appear on a new line in Anki.  (The center environment is converted to a `<div class="centered">` environment by plastex, which is styled with the css attributes `display:flex` and `flex-direction:column` in the MathCloze card template.  These css attributes are often what we want, e.g. when the center environment contains a list, but for pure it results in each word being placed on a new line.  If we add `\par` in the tex file, the converted text gets wrapped in a <p> environment, and the problem disappears.
 
 
 ### MathJax only includes certain packages out-of-the-box
