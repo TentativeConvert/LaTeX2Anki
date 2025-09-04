@@ -173,6 +173,6 @@ There are two possible approaches to rendering an html-tex mix in Anki.
 
 In both options, the cards can be viewed offline, and both options support nightmode colouring via css (colour of images can be inverted via css).
 
-`plastex` mostly caters for option 1, so this is the path we follow here.  One exception is `tikz-cd` diagrams, which `plastex` converts to `svg`s.  My current inclination is to simply avoid such diagrams, so that we don't end up having to deal with the worst of both words 1 & 2.  If I really need a card with a diagram, perhaps  [amscd](https://docs.mathjax.org/en/latest/input/tex/extensions/amscd.html) would work instead.
+`plastex` mostly caters for option 1, so this is the path we follow here.  One exception is `tikz-cd` diagrams, which `plastex` converts to `svg`s.  My current inclination is to simply avoid such diagrams, so that we don't end up having to deal with the worst of both worlds 1 & 2.  If I really need a card with a diagram, perhaps  [amscd](https://docs.mathjax.org/en/latest/input/tex/extensions/amscd.html) would work instead.
 
-It should be possible to set up `plastex` use option 2 for all maths, i.e. to turn all maths into images. But this is difficult to set up.  See [plastex:issue163](https://github.com/plastex/plastex/issues/163).
+It should be possible to set up `plastex` to use option 2 for all maths, i.e. to turn all maths into images. But this is difficult to set up.  See [plastex:issue163](https://github.com/plastex/plastex/issues/163).
