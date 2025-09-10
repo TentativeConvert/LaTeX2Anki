@@ -20,11 +20,11 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
 
    You need `python 3` and several packages, including recent versions of `pip`, `setuptools` and `wheels`.  You can see which versions you have with 
    ```
-python3 -m pip show wheel pip setuptools
+   python3 -m pip show wheel pip setuptools
    ```
    and update if necessary with 
    ```
-python -m pip install --upgrade pip setuptools wheel
+   python -m pip install --upgrade pip setuptools wheel
    ```
    The installation process for `anki2latex` described in the next step works for me with the following versions of the above packages:
    ```
