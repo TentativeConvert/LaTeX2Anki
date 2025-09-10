@@ -1,11 +1,24 @@
 import argparse  
 import subprocess
+import tempfile
 from pathlib import Path
 # for html to csv conversion:
 import csv
 import re
 from bs4 import BeautifulSoup
 
+
+# The following template is passed to plastex to convert latex to html:
+JINJA_TEMPLATE_FOR_PLASTEX = """\
+name: note
+<div class="note">
+     <div class="uuid">{{ obj.attributes.uuid }}</div>
+     {{ obj }}
+</div>
+
+name: field 
+<br class="fieldseparator"></br>
+"""
 
 def main():
     ##################################################
@@ -15,17 +28,22 @@ def main():
     parser.add_argument("texfile", help="LaTeX file to process")
     args = parser.parse_args()
     
-    PACKAGE_DIR = str(Path(__file__).resolve().parent) # (folder ".../latex2anki" in which this script resides)
     tex_path = Path(args.texfile)                      # (Path object describing texfile supplied by user)
     INPUT_FILE  = str(tex_path)     
     HTML_FILENAME = str(tex_path.stem + ".html")
     HTML_FILE   = str(Path(tex_path.parent / tex_path.stem / tex_path.stem).with_suffix(".html"))
     OUTPUT_FILE = str(Path(tex_path.parent / tex_path.stem / tex_path.stem).with_suffix(".csv"))
-    
+
     ##################################################
     # STEP 1: LaTeX to HTML 
     print("\nSTEP 1: Converting " + INPUT_FILE + " to " + HTML_FILE + " via plastex...\n")
-    subprocess.run(["plastex", "--extra-templates=" + PACKAGE_DIR, "--filename=" + HTML_FILENAME, INPUT_FILE])
+
+    with tempfile.TemporaryDirectory() as TEMP_TEMPLATE_DIR:
+        # Create temporary file with the template from above
+        template_path = Path(TEMP_TEMPLATE_DIR) / "latex2anki.jinja2s"
+        template_path.write_text(JINJA_TEMPLATE_FOR_PLASTEX, encoding="utf-8")
+        # Call plastex, passing the folder in which the template lives as an argument
+        subprocess.run(["plastex", f"--extra-templates={TEMP_TEMPLATE_DIR}", f"--filename={HTML_FILENAME}", INPUT_FILE])
         
     ##################################################
     # STEP 2: HTML to csv
