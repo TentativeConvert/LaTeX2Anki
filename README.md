@@ -18,14 +18,29 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
 
 2. Python
 
-   You need `python 3` and several packages, in particular `plastex` and `beautifulsoup4`.  Clone this repository into some local folder and run
+   You need `python 3` and several packages, including recent versions of `pip`, `setuptools` and `wheels`.  You can see which versions you have with 
+   ```
+python3 -m pip show wheel pip setuptools
+   ```
+   and update if necessary with 
+   ```
+python -m pip install --upgrade pip setuptools wheel
+   ```
+   The installation process for `anki2latex` described in the next step works for me with the following versions of the above packages:
+   ```
+   pip 25.0.1
+   setuptools 45.2.0
+   wheel 0.34.2
+   ```
+3. anki2latex
+
+   Clone this repository into some local folder and run
    ``` bash
    pip install .
    ``` 
-   in that folder (the folder containing `pyproject.toml`).    This should automatically install the python packages `plastex` and `beautifulsoup4`.   (In case you want to do local development on this python script, use  `pip install --editable .` instead, so you do not need to reinstall after each edit.) 
-
-   
-3. Anki
+   in that folder (the folder containing `pyproject.toml`).    This should automatically install the python packages `plastex` (version ≥ 3.1) and `beautifulsoup4`.   (In case you want to do local development on this    python script, use  `pip install --editable .` instead, so you do not need to reinstall after each edit.  If the installation of `anki2latex` fails, you might still be able to use the script by calling it directly, see Step 2 of [Workflow](#Workflow) below.)
+     
+4. Anki
 
    In Anki, you will once need to import the deck `example/example.apkg` so that the note type `MathCloze` becomes available in Anki.  (Hopefully, this will also install the necessary fonts for MathCloze in Anki -- I need to test this. Exporting `example.apkg` with the option `export media` did lead to a larger file than exporting without this option, so hopefully this difference is caused precisely by the fonts.)
    
@@ -47,9 +62,12 @@ I describe the workflow here using the file `example.tex`.
   
 2. Run `latex2anki example.tex`.
 
-   You need to call this command in the folder in which `example.tex` lives.
-   
-   In a first step, `plastex` is called to convert the tex file to `example/example.html`, which you can view in your browser.  In a second step, the script converts the html file to `example/example.csv`.
+   You need to call this command in the folder in which `example.tex` lives.   This script does two things.  In a first step, `plastex` is called to convert the tex file to `example/example.html`, which you can view in your browser.  In a second step, the script converts the html file to `example/example.csv`.
+
+   *Aside:* If the installation of `latex2anki` described in Step 2 of [Prerequisites](#Prerequisites) fails, you might still be able to run `latex2anki` by calling
+   ``` bash
+   python3 latex2anki/cli.py example.tex
+   ```
    
    *Details:* The main code of `latex2anki` is contained in `latex2anki/cli.py`. 
    
