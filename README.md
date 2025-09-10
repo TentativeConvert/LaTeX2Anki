@@ -71,7 +71,7 @@ I describe the workflow here using the file `example.tex`.
    
    *Details:* The main code of `latex2anki` is contained in `latex2anki/cli.py`. 
    
-   The first conversion step (`tex > html`) is delegated to `plastex`.  The details of this conversion are controlled by three files: by  (the `\if\plastex`-branches of) `latex2anki.sty` and `latex2anki.ini`, which should both be in the same folder as the tex file, and by the template file `latex2anki.jinja2s`, which should be in the same folder `latex2anki` as the python script `cli.py` itself.  Note that `plastex` automatically expands all user-defined macros, so that the html file only contains standard LaTeX commands.
+   The first conversion step (`tex > html`) is delegated to `plastex`.  The details of this conversion are controlled by three files: by  (the `\if\plastex`-branches of) `latex2anki.sty` and `latex2anki.ini`, which should both be in the same folder as the tex file, and a temporary template file created on the fly by the script itself (see constant `JINJA_TEMPLATE_FOR_PLASTEX` defined at the top of `latex2anki/cli.py`).  Note that `plastex` automatically expands all user-defined macros, so that the html file only contains standard LaTeX commands.  The appearance of `example.html` in the browser is controlled by the file `example/styles/theme-white.css`, which is copied there by plastex from the resources that get installed with plastex.  It will necessarily look very different from the final cards in Anki, but at least you can check whether your equations render at all.
    
    For details of the second conversion step (`html > csv`), see the code in `cli.py`.
          
