@@ -32,7 +32,7 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
    setuptools 45.2.0
    wheel 0.34.2
    ```
-3. anki2latex
+3. LaTeX2Anki
 
    Clone this repository into some local folder and run
    ``` bash
