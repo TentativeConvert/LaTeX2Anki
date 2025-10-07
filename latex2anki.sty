@@ -2,7 +2,6 @@
 \ProvidesPackage{latex2anki}
 \newif\ifplastex
 \RequirePackage{amsmath,amssymb}% note that amssym includes amsfonts
-\RequirePackage{tikz,tikz-cd}
 \ifplastex\else\RequirePackage{xcolor}\fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \ifplastex\else
@@ -89,7 +88,12 @@
   \clearpage%
 }
 
-\newcommand{\cloze}[1]{\text{\textbf{\textcolor{gray}{\{}}}%
+\newcommand{\cloze}[1]{%
+  \ifmmode
+    \text{\textbf{\textcolor{gray}{\{}}}%
+  \else
+    \textbf{\textcolor{gray}{\{}}%
+  \fi
   %%% syntax error detection:
   \ifcloze
     \PackageError{latex2anki}{unclosed cloze (missing clend command next cloze)}{}%
@@ -121,7 +125,12 @@
   \fi%
   \hinttrue%
   %%%
-  \color{gray}\text{\textbf{\textcolor{gray}{~:~}}}%
+  \color{gray}
+  \ifmmode
+    \text{\textbf{\textcolor{gray}{~:~}}}%
+  \else
+    \textbf{\textcolor{gray}{~:~}}%
+  \fi
 }
 \newcommand{\clend}{%
   %%% syntax error detection:
@@ -131,7 +140,15 @@
   \clozefalse%
   \hintfalse%
   %%%
-  \text{\textbf{\textcolor{gray}{\}}}}\color{black}%
+  % Need to end in text mode when called within text mode,
+  % otherwise \clend causes spacing issues when used at the end
+  % of a paragraph.  This is the reason I employ \ifmmmode here.
+  \ifmmode
+    \text{\textbf{\textcolor{gray}{\}}}}%
+  \else
+    \textbf{\textcolor{gray}{\}}}%
+  \fi
+  \color{black}%
 }
 \fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
