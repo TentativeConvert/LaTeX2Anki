@@ -1,0 +1,68 @@
+body {
+font-family: system-ui, sans-serif;
+line-height: 1.5;
+margin: 2em;
+background: #fafafa;
+}
+
+.note {
+border: 1px solid #ddd;
+border-radius: 10px;
+padding: 1em 1.5em;
+background: white;
+box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+max-width: 600px;
+}
+
+.uuid {
+    font-family: monospace;
+    color: gray;
+    font-size: 0.9em;
+    margin-bottom: 0.5em;
+}
+
+.field {
+margin-top: 1em;
+}
+
+/* Field 0 (Title) */
+.field.title {
+font-weight: bold;
+font-size: 1.2em;
+margin-top: 1.5em;
+}
+
+/* Field 1 (Prompt) */
+.field.prompt {
+font-weight: normal;
+}
+
+/* Field 2 (Background info) */
+.field.background::before {
+content: "Background info: ";
+font-style: italic;
+}
+
+/* Field 3 (Chapter name) */
+.field.chapter {
+    color: gray;
+    display:inline;
+    text-align: right;
+}
+
+/* Field 4 (Def/Satz/Bsp) */
+.field.def::before {
+    color: gray;
+    display:inline;
+    content: " – ";
+}
+.field.def {
+    color: gray;
+    display:inline;
+}
+/* Field 5 (Number) */
+.field.number {
+    display:inline;
+    color: gray;
+    margin-left:0.5ex;
+}

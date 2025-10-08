@@ -33,7 +33,9 @@ def main():
     HTML_FILENAME = str(tex_path.stem + ".html")
     HTML_FILE   = str(Path(tex_path.parent / tex_path.stem / tex_path.stem).with_suffix(".html"))
     OUTPUT_FILE = str(Path(tex_path.parent / tex_path.stem / tex_path.stem).with_suffix(".csv"))
-
+    EXTRA_CSS_FILE = "MathCloze.css" # plastex copies this file to "[outputdir]/styles"
+    EXTRA_JS_FILE  = "MathCloze.js"  # plastex copies this file to "[outputdir]/js"
+    
     ##################################################
     # STEP 1: LaTeX to HTML 
     print("\nSTEP 1: Converting " + INPUT_FILE + " to " + HTML_FILE + " via plastex...\n")
@@ -43,7 +45,7 @@ def main():
         template_path = Path(TEMP_TEMPLATE_DIR) / "latex2anki.jinja2s"
         template_path.write_text(JINJA_TEMPLATE_FOR_PLASTEX, encoding="utf-8")
         # Call plastex, passing the folder in which the template lives as an argument
-        subprocess.run(["plastex", f"--extra-templates={TEMP_TEMPLATE_DIR}", f"--filename={HTML_FILENAME}", INPUT_FILE])
+        subprocess.run(["plastex", f"--extra-templates={TEMP_TEMPLATE_DIR}", "--no-theme-css", f"--extra-css={EXTRA_CSS_FILE}",f"--extra-js={EXTRA_JS_FILE}",f"--filename={HTML_FILENAME}", INPUT_FILE])
         
     ##################################################
     # STEP 2: HTML to csv

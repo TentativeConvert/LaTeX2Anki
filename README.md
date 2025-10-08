@@ -50,15 +50,22 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
 
 I describe the workflow here using the file `example.tex`.
 
-0. Copy or symlink the files `latex2anki.sty` and `latex2anki.ini` into the directory in which your tex file `example.tex` lives.  
+0. Copy or symlink the following 4 files into the directory in which your tex file `example.tex` lives:
 
-   You only need to do this once for each directory in which you want to keep your texed notes.
+   - `MathCloze.sty` 
+   - `MathCloze.ini`
+   - `MathCloze.css` 
+   - `MathCloze.js` 
+   
+   You only need to do this once for each directory in which you want to keep your texed notes.  
+   
+   *Details:*  These files are specifically designed for the Anki note template `MathCloze`.  If you use a different template, you will need to adapt this file.  The `sty` and `ini` files are essential for the conversion process; the `css` and `js` files are just there to prettify the html preview.
 
 1. optional: Compile `example.tex` to `example.pdf` with LaTeX.
 
    Check that the pdf file looks as expected.  
    
-   *Details:* The layout of the pdf file is controlled by (the `\if\plastex\else`-branches of) the LaTeX package `latex2anki.sty`, which should be in the same folder as the tex file.  This LaTeX package is specifically designed for the Anki note template `MathCloze`.  If you use a different template, you will need to adapt this file.
+   *Details:* The layout of the pdf file is controlled by (the `\if\plastex\else`-branches of) the LaTeX package `MathCloze.sty` (see previous step).  
   
 2. Run `latex2anki example.tex`.
 
@@ -71,7 +78,7 @@ I describe the workflow here using the file `example.tex`.
    
    *Details:* The main code of `latex2anki` is contained in `latex2anki/cli.py`. 
    
-   The first conversion step (`tex > html`) is delegated to `plastex`.  The details of this conversion are controlled by three files: by  (the `\if\plastex`-branches of) `latex2anki.sty` and `latex2anki.ini`, which should both be in the same folder as the tex file, and a temporary template file created on the fly by the script itself (see constant `JINJA_TEMPLATE_FOR_PLASTEX` defined at the top of `latex2anki/cli.py`).  Note that `plastex` automatically expands all user-defined macros, so that the html file only contains standard LaTeX commands.  The appearance of `example.html` in the browser is controlled by the file `example/styles/theme-white.css`, which is copied there by plastex from the resources that get installed with plastex.  It will necessarily look very different from the final cards in Anki, but at least you can check whether your equations render at all.
+   The first conversion step (`tex > html`) is delegated to `plastex`.  The details of this conversion are controlled by three files: by  (the `\if\plastex`-branches of) `MathCloze.sty` and `MathCloze.ini` (see initial step) and a temporary template file created on the fly by the script itself (see constant `JINJA_TEMPLATE_FOR_PLASTEX` defined at the top of `latex2anki/cli.py`).  Note that `plastex` automatically expands all user-defined macros, so that the html file only contains standard LaTeX commands.  The appearance of `example.html` in the browser is controlled by the files `MathCloze.js` and `MathCloze.css`.  It will stil look very different from the final cards in Anki, but at least you can check whether your equations render at all.
    
    For details of the second conversion step (`html > csv`), see the code in `cli.py`.
          
@@ -161,6 +168,8 @@ See  [MathJax 3 documentation](https://docs.mathjax.org/en/v3.0/input/tex/extens
 ### `note` environment and `field` command
 
 The structure of `note` environment and `field` command is supposed to be reminiscent of the structure of `itemize` environment and `item` argument.  So it should feel sufficiently “LaTeXy”.  On the other hand, simply “itemizing” all field entries is very close to the internal logic of Anki, and it certainly accurately reflects the structure of the csv file that is used as an intermediary to import notes form LaTeX into Anki.
+ 
+The current setup is such that `plastex` converts the `note` environment to a `div class="note">...</div>`, and the `field` command to a simple line break `<br class="fieldseparator"></br>`.  (There was some technical reason why I chose this seemingly arbitrary but non-standard way to write a line break in html, but I don't remember now.)  In the html preview, `MathCloze.js` is used to post-process fields separated by the `<br>`-markup into separate `<div>`s. Similarly, `latex2anki` separates the fields into css entries. I admit this is not the most efficient approach.
  
 ### `cloze`, `hint` and `clend` commands
 
