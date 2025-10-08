@@ -158,6 +158,10 @@ That is, write your paragraph as follows:
 ```
 Otherwise, each word will appear on a new line in Anki.  (The center environment is converted to a `<div class="centered">` environment by plastex, which is styled with the css attributes `display:flex` and `flex-direction:column` in the MathCloze card template.  These css attributes are often what we want, e.g. when the center environment contains a list, but for pure it results in each word being placed on a new line.  If we add `\par` in the tex file, the converted text gets wrapped in a <p> environment, and the problem disappears.
 
+### Don't use `\ ` to typeset a whitespace within `\(\text{…}\)`
+
+For some reason, MathJax displays `\(\text{\ }\)` as a visible backslash.
+
 
 ### MathJax only includes certain packages out-of-the-box
  

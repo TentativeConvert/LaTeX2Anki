@@ -96,7 +96,13 @@ def main():
         for field in parsed_fields:
             # Clean up: remove newlines and collapse spaces
             cleaned_field = field.decode_contents().replace("\n", "").strip() # remove linebreaks
-            
+            # Insert whitespaces between consecutive curly braces, so Anki
+            # does not misread them as closing a cloze deletion
+            # i.e.:
+            # }}  --> } }
+            # }}} --> } } }
+            # etc.
+            cleaned_field = re.sub(r"(?<=})}", " }", cleaned_field)
             # Replace manual CLOZE markup with Anki's cloze-syntax
             cleaned_field = re.sub(r'\(\(CLOZE(\d+)\)\)', r'{{c\1::', cleaned_field)
             cleaned_field = re.sub(r'\(\(HINT\)\)', '::', cleaned_field)
