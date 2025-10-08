@@ -26,7 +26,7 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
    ```
    python -m pip install --upgrade pip setuptools wheel
    ```
-   The installation process for `anki2latex` described in the next step works for me with the following versions of the above packages:
+   The installation process for `latex2latex` described in the next step works for me with the following versions of the above packages:
    ```
    pip 25.0.1
    setuptools 45.2.0
@@ -38,7 +38,7 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
    ``` bash
    pip install .
    ``` 
-   in that folder (the folder containing `pyproject.toml`).    This should automatically install the python packages `plastex` (version ≥ 3.1) and `beautifulsoup4`.   (In case you want to do local development on this    python script, use  `pip install --editable .` instead, so you do not need to reinstall after each edit.  If the installation of `anki2latex` fails, you might still be able to use the script by calling it directly, see Step 2 of [Workflow](#Workflow) below.)
+   in that folder (the folder containing `pyproject.toml`).    This should automatically install the python packages `plastex` (version ≥ 3.1) and `beautifulsoup4`.   (In case you want to do local development on this    python script, use  `pip install --editable .` instead, so you do not need to reinstall after each edit.  If the installation of `latex2anki` fails, you might still be able to use the script by calling it directly, see Step 2 of [Workflow](#Workflow) below.)
      
 4. Anki
 
