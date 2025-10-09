@@ -15,9 +15,6 @@ name: note
      <div class="uuid">{{ obj.attributes.uuid }}</div>
      {{ obj }}
 </div>
-
-name: field 
-<br class="fieldseparator"></br>
 """
 
 def main():
@@ -76,16 +73,8 @@ def main():
             uuid_field = ""
             print("ERROR: There's a note without a UUID.")
 
-        # Split remaining content by <br class="fieldseparator">
-        # Find all field separators:
-        for sep in inner.find_all("br", class_="fieldseparator"):
-            # Replace <br class="fieldseparator"> with normalized marker '|'
-            # (BeautifulSoup normalizes <br class="fieldseparator"></br> to <br class="fieldseparator"></br>,
-            # so it's safer to use BeautifulSoup to replace the html markup by a different marker before splitting the string
-            # rather than splitting the string directly using the html markup.
-            sep.replace_with("###FIELDSEPARATOR###")
-
-        raw_fields = str(inner).split("###FIELDSEPARATOR###")
+        # Split remaining content at each "((FIELDSEPARATOR))"
+        raw_fields = str(inner).split("((FIELDSEPARATOR))")
         # Overwrite first (empty) field with UUID:
         raw_fields[0] = uuid_field
 

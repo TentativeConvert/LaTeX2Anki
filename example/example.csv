@@ -1,6 +1,6 @@
 #separator:|
 #html:true
-mydeck-0001|Title of Card 1|This is a {{c1::cloze}} deletion test. You can have several {{c2::clozes}} on the same card. In the pdf preview, they get displayed in different colours. <p>You can also define a {{c3::cloze with a hint::hint}}. </p>|You can display some additional info on the back of the card.|Test Chapter|Example|01
+mydeck-0001|Title of Card 1|This is a {{c1::cloze}} deletion test. You can have several {{c2::clozes}} on the same card. In the pdf and html previews, they get displayed in different colours. <p>You can also define a {{c3::cloze with a hint::hint}}.  </p>|You can display some additional info on the back of the card.|Test Chapter|Example|01
 mydeck-0002|Preimage|"A <b class=""bfseries"">preimage</b> of an element \(b \in B\) under a map \(f\colon A\to B\) is {{c1::an element \(a\in A\) with \(f(a) = b\).::(think of an element in \(A\))}}"||Set Theory|definition|05
 mydeck-0003|User macros|User {{c1::marcos}} get expanded by plastex: \(\mathbb {R}\), \(\mathbb {C}\)||Test Chapter|Example|02
 mydeck-0004|Tables|"LaTeX tabulars get converted to html tables: {{c1:: <div class=""centered""> <table class=""tabular""><tr><td colspan="""" rowspan="""" style=""text-align:left""><p> \(a\) </p></td><td colspan="""" rowspan="""" style=""text-align:left""><p> \(b\) </p></td></tr><tr><td colspan="""" rowspan="""" style=""text-align:left""><p>\(c\) </p></td><td colspan="""" rowspan="""" style=""text-align:left""><p> \(d\) </p></td></tr></table> </div> }}"||Test Chapter|Example|02

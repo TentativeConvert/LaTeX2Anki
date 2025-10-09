@@ -3,15 +3,17 @@ document.querySelectorAll('.note').forEach(note => {
   const uuid = uuidEl ? uuidEl.outerHTML : ''; // preserve uuid HTML
   if (uuidEl) uuidEl.remove();
 
-  // Normalize <br class="fieldseparator"></br> variations
-  const raw = note.innerHTML.replace(/<\/?br\s*>/gi, '');
-  //const fields = raw.split(/<br class="fieldseparator"[^>]*>/i).map(s => s.trim()).filter(Boolean);
-  const fields = raw.split(/<br class="fieldseparator"[^>]*>/i).map(s => s.trim());
+  let raw = note.innerHTML;
+  console.log(raw);
+  raw = raw.replaceAll(/\(\(CLOZE(\d+)\)\)/g,'<span class="cloze$1"><span class="syntax">{</span>');
+  console.log("\nA:\n");
+  raw = raw.replaceAll('((HINT))','</span><span class="hint"> <span class="syntax">:</span> ');
+  console.log("\nB:\n");
+  raw = raw.replaceAll('((CLEND))','<span class="syntax">}</span></span>');
+  console.log(raw);
+    
+  const fields = raw.split("((FIELDSEPARATOR))").map(s => s.trim());
   
-  if (fields.length > 6) {
-    console.warn(`Note ${uuid.replace(/<[^>]*>/g, '')} has more than 6 fields (${fields.length}).`);
-  }
-
   const styled = fields.map((f, i) => {
     switch (i) {
       case 1: return `<div class="field title">${f}</div>`;

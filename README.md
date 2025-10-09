@@ -173,7 +173,7 @@ See  [MathJax 3 documentation](https://docs.mathjax.org/en/v3.0/input/tex/extens
 
 The structure of `note` environment and `field` command is supposed to be reminiscent of the structure of `itemize` environment and `item` argument.  So it should feel sufficiently “LaTeXy”.  On the other hand, simply “itemizing” all field entries is very close to the internal logic of Anki, and it certainly accurately reflects the structure of the csv file that is used as an intermediary to import notes form LaTeX into Anki.
  
-The current setup is such that `plastex` converts the `note` environment to a `div class="note">...</div>`, and the `field` command to a simple line break `<br class="fieldseparator"></br>`.  (There was some technical reason why I chose this seemingly arbitrary but non-standard way to write a line break in html, but I don't remember now.)  In the html preview, `MathCloze.js` is used to post-process fields separated by the `<br>`-markup into separate `<div>`s. Similarly, `latex2anki` separates the fields into css entries. I admit this is not the most efficient approach.
+In the conversion to html, `plastex` converts the `note` environment to `div class="note">...</div>`, while the `\field`, `\cloze{n}`, `\hint` and `\clend` commands are simply translated to the strings `((FIELDSEPARATOR))`, `((CLOZEn))`, `((HINT))` and `((CLEND))`. In the html preview, `MathCloze.js` is used to post-process these strings into adequate html markup.  Similarly, `latex2anki` post-processes these strings into css/Anki-syntax.
  
 ### `cloze`, `hint` and `clend` commands
 

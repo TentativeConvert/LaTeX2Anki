@@ -13,7 +13,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifplastex
 \newenvironment{note}[1]{}{}
-\newcommand{\field}{}
+\newcommand{\field}{
+((FIELDSEPARATOR))
+}
 \newcommand{\cloze}[1]{((CLOZE#1))}
 \newcommand{\hint}{((HINT))}
 \newcommand{\clend}{((CLEND))}
