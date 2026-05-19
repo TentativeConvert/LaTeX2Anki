@@ -18,29 +18,54 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
 
 2. Python
 
-   You need `python 3` and several packages, including recent versions of `pip`, `setuptools` and `wheels`.  You can see which versions you have with 
+   You need `python 3` together with either `pip` or `pipx`.
+
+   On **older systems** (e.g. Ubuntu 22.04 and earlier), `pip` works directly.  You need recent versions of `pip`, `setuptools` and `wheel`.  You can see which versions you have with
    ```
    python3 -m pip show wheel pip setuptools
    ```
-   and update if necessary with 
+   and update if necessary with
    ```
    python -m pip install --upgrade pip setuptools wheel
    ```
-   The installation process for `latex2latex` described in the next step works for me with the following versions of the above packages:
+   The installation process described below works for me with the following versions of the above packages:
    ```
    pip 25.0.1
    setuptools 45.2.0
    wheel 0.34.2
    ```
-3. LaTeX2Anki
 
-   Clone this repository into some local folder and run
+   On **newer systems** (e.g. Ubuntu 23.04+, including 24.04), system-wide `pip install` is no longer allowed; use [`pipx`](https://pipx.pypa.io/) instead:
+   ``` bash
+   sudo apt install pipx
+   pipx ensurepath
+   ```
+   (The second command makes sure that `~/.local/bin`, where pipx places executables, is on your `PATH`.  You may need to open a new shell afterwards.)
+
+3. plasTeX
+
+   Install [plasTeX](https://plastex.github.io/plastex/) (version ≥ 3.1) so that the `plastex` command is available on your `PATH`.  With `pip`:
+   ``` bash
+   pip install "plastex>=3.1"
+   ```
+   or with `pipx`:
+   ``` bash
+   pipx install plasTeX
+   ```
+
+4. LaTeX2Anki
+
+   Clone this repository into some local folder and, from inside that folder (the folder containing `pyproject.toml`), run either
    ``` bash
    pip install .
-   ``` 
-   in that folder (the folder containing `pyproject.toml`).    This should automatically install the python packages `plastex` (version ≥ 3.1) and `beautifulsoup4`.   (In case you want to do local development on this    python script, use  `pip install --editable .` instead, so you do not need to reinstall after each edit.  If the installation of `latex2anki` fails, you might still be able to use the script by calling it directly, see Step 2 of [Workflow](#Workflow) below.)
-     
-4. Anki
+   ```
+   or
+   ``` bash
+   pipx install .
+   ```
+   This should automatically install the python package `beautifulsoup4` (and, with `pip`, also `plastex` if it is not already installed).  (In case you want to do local development on this python script, use `pip install --editable .` or `pipx install --editable .` instead, so you do not need to reinstall after each edit.  If the installation of `latex2anki` fails, you might still be able to use the script by calling it directly, see Step 2 of [Workflow](#Workflow) below.)
+
+5. Anki
 
    In Anki, you will once need to import the deck `example/example.apkg` so that the note type `MathCloze` becomes available in Anki.  (Hopefully, this will also install the necessary fonts for MathCloze in Anki -- I need to test this. Exporting `example.apkg` with the option `export media` did lead to a larger file than exporting without this option, so hopefully this difference is caused precisely by the fonts.)
    
