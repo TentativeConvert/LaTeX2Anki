@@ -75,7 +75,8 @@ font-style: italic;
 .cloze2 {color:green;}
 .cloze3 {color:orange;}
 .cloze4 {color:purple;}
-.cloze5 {color;red;}
+.cloze5 {color:red;}
+.hint {color:gray;}
 .syntax {color:gray;font-size:smaller;}
 
 /* from Anki template 'MathCloze': */
