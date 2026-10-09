@@ -67,7 +67,7 @@ Notes created and shared using LaTeX-Note-Importer are essentially static images
 
 5. Anki
 
-   In Anki, you will once need to import the deck `example/example.apkg` so that the note type `MathCloze` becomes available in Anki.  (Hopefully, this will also install the necessary fonts for MathCloze in Anki -- I need to test this. Exporting `example.apkg` with the option `export media` did lead to a larger file than exporting without this option, so hopefully this difference is caused precisely by the fonts.)
+   In Anki, you will once need to import the deck `example.apkg` so that the note type `MathCloze` becomes available in Anki.  (Hopefully, this will also install the necessary fonts for MathCloze in Anki -- I need to test this. Exporting `example.apkg` with the option `export media` did lead to a larger file than exporting without this option, so hopefully this difference is caused precisely by the fonts.)
    
    You can immediately delete the deck again after importing it.
 
