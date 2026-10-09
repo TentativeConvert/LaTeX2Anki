@@ -245,7 +245,6 @@ There are two possible approaches to rendering an html-tex mix in Anki.
     - ❌ Loading probably slower.
     - ✅ Can use clozes inside maths (but cloze-specific colour highlighting not supported).  
     - ✅ Importing is easy.
-    -
     
 2. Convert LaTeX to `svg`s, and include references to the svg files in the html code.
 
@@ -259,5 +258,3 @@ There are two possible approaches to rendering an html-tex mix in Anki.
 In both options, the cards can be viewed offline, and both options support nightmode colouring via css (colour of images can be inverted via css).
 
 `plastex` mostly caters for option 1, so this is the path we follow here.  One exception is `tikz-cd` diagrams, which `plastex` converts to `svg`s.  `latex2anki` renames these images and can copy them to Anki's media folder (see Step 2 of [Workflow](#workflow)).  ([amscd](https://docs.mathjax.org/en/latest/input/tex/extensions/amscd.html) would work in MathJax, but `plastex` cannot pass it through.)
-
-It should be possible to set up `plastex` to use option 2 for all maths, i.e. to turn all maths into images. But this is difficult to set up.  See [plastex:issue163](https://github.com/plastex/plastex/issues/163).
