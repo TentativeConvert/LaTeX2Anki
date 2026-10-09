@@ -94,7 +94,11 @@ I describe the workflow here using the file `example.tex`.
   
 2. Run `latex2anki example.tex`.
 
-   You need to call this command in the folder in which `example.tex` lives.   This script does two things.  In a first step, `plastex` is called to convert the tex file to `example/example.html`, which you can view in your browser.  In a second step, the script converts the html file to `example/example.csv`.
+   You need to call this command in the folder in which `example.tex` lives.   This script does two things.  In a first step, `plastex` is called to convert the tex file to `example-html/example.html`, which you can view in your browser.  In a second step, the script converts the html file to `example-csv/example.csv`.
+
+   Images produced by `plastex` (e.g. from `tikzcd` diagrams, see [Diagrams](#diagrams)) are copied to `example-csv/images`, renamed to `example-[hash].svg`, where `[hash]` is a hash of the file's contents.  In the csv file, they are referred to by these names.  Anki needs these files in its media folder (see next step).  The folder `example-csv` is emptied on every run, so it never contains outdated images.
+
+   Optionally, call `latex2anki example.tex --anki-profile PROFILE_DIR` to also copy the images to the media folder `PROFILE_DIR/collection.media` of your Anki profile, e.g. `latex2anki example.tex --anki-profile ~/.local/share/Anki2/"User 1"` (or ` …/snap/anki-desktop/common/"Benutzer 1"` if Anki is installed as a snap package).  Files that already exist in the media folder are never overwritten.  Since the file names are hashes of the contents, an unchanged image keeps its name, and a changed image gets a new one; Anki's *Tools > Check Media* removes images no longer used by any note.
 
    *Aside:* If the installation of `latex2anki` described in Step 2 of [Prerequisites](#Prerequisites) fails, you might still be able to run `latex2anki` by calling
    ``` bash
@@ -107,7 +111,9 @@ I describe the workflow here using the file `example.tex`.
    
    For details of the second conversion step (`html > csv`), see the code in `cli.py`.
          
-3. Import `example/example.csv` into Anki.
+3. Import `example-csv/example.csv` into Anki.
+
+   If your notes contain images and you did not use `--anki-profile`, first copy the contents of `example-csv/images` to your profile's `collection.media` folder.
 
    In the dialog window, choose:
 
@@ -118,6 +124,10 @@ For a more elaborate example of what a tex file with notes might look like, see 
 
 
 ## Known issues, caveats & limitations
+
+### Diagrams
+
+`plastex` cannot convert `xymatrix` diagrams, and it chokes on the `amscd` package.  Use `tikzcd` diagrams instead, outside of maths mode (e.g. within `\begin{center}…\end{center}`, not within `\[…\]`).  `plastex` converts each of them to an `svg` image (see Step 2 of [Workflow](#workflow)).  If you use `babel` with option `german`, add `\usetikzlibrary{babel}`, otherwise labels of the form `"f"` break.
 
 ### Use `\(…\)` and `\[…\]` only for maths
   
@@ -248,6 +258,6 @@ There are two possible approaches to rendering an html-tex mix in Anki.
 
 In both options, the cards can be viewed offline, and both options support nightmode colouring via css (colour of images can be inverted via css).
 
-`plastex` mostly caters for option 1, so this is the path we follow here.  One exception is `tikz-cd` diagrams, which `plastex` converts to `svg`s.  My current inclination is to simply avoid such diagrams, so that we don't end up having to deal with the worst of both worlds 1 & 2.  If I really need a card with a diagram, perhaps  [amscd](https://docs.mathjax.org/en/latest/input/tex/extensions/amscd.html) would work instead.
+`plastex` mostly caters for option 1, so this is the path we follow here.  One exception is `tikz-cd` diagrams, which `plastex` converts to `svg`s.  `latex2anki` renames these images and can copy them to Anki's media folder (see Step 2 of [Workflow](#workflow)).  ([amscd](https://docs.mathjax.org/en/latest/input/tex/extensions/amscd.html) would work in MathJax, but `plastex` cannot pass it through.)
 
 It should be possible to set up `plastex` to use option 2 for all maths, i.e. to turn all maths into images. But this is difficult to set up.  See [plastex:issue163](https://github.com/plastex/plastex/issues/163).
